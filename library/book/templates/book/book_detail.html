@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.name }} — Library{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📖 {{ book.name }}</h1>
+    <p>Book details</p>
+</div>
+
+<div class="card">
+    <h2>{{ book.name }}</h2>
+    <br>
+    <div class="detail-grid">
+        <span class="detail-label">ID</span>
+        <span class="detail-value">{{ book.id }}</span>
+
+        <span class="detail-label">Title</span>
+        <span class="detail-value">{{ book.name }}</span>
+
+        <span class="detail-label">Description</span>
+        <span class="detail-value">{{ book.description|default:"No description" }}</span>
+
+        <span class="detail-label">Available Count</span>
+        <span class="detail-value">
+            {% if book.count > 0 %}
+                <span class="badge badge-green">{{ book.count }}</span>
+            {% else %}
+                <span class="badge badge-red">Out of stock</span>
+            {% endif %}
+        </span>
+
+        <span class="detail-label">Authors</span>
+        <span class="detail-value">
+            {% for author in authors %}
+                <span class="badge badge-purple">{{ author.name }} {{ author.surname }} {{ author.patronymic }}</span>
+            {% empty %}
+                <span style="color: #666;">No authors assigned</span>
+            {% endfor %}
+        </span>
+    </div>
+</div>
+
+<a href="{% url 'book_list' %}" class="btn btn-secondary">← Back to Books</a>
+{% endblock %}

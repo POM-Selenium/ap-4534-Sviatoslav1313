@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Books of {{ user_obj.first_name }} {{ user_obj.last_name }} — Library{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📚 Books Provided to {{ user_obj.first_name }} {{ user_obj.last_name }}</h1>
+    <p>User ID: {{ user_obj.id }} | Email: {{ user_obj.email }}</p>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td><strong>{{ book.name }}</strong></td>
+                <td>{{ book.description|truncatechars:60 }}</td>
+                <td>
+                    <a href="{% url 'book_detail' book.id %}" class="btn btn-secondary btn-sm">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="empty-state">
+                    <div class="icon">📭</div>
+                    No books provided to this user.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<a href="{% url 'user_list' %}" class="btn btn-secondary">← Back to Users</a>
+{% endblock %}
